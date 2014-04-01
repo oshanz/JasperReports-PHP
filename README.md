@@ -1,4 +1,4 @@
-JasperReports-in-PHP
+JasperReports-PHP
 ====================
 
-Jasper Reports in PHP
+Jasper Reports + PHP
