@@ -23,6 +23,7 @@ public class GetInvoice {
         try {
             // TODO code application logic here
             JSONObject arg_json = new JSONObject(args[0]);
+            System.out.println("1");
         } catch (JSONException ex) {
             Logger.getLogger(GetInvoice.class.getName()).log(Level.SEVERE, null, ex);
         }

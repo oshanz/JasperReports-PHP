@@ -5,10 +5,10 @@
  * @contact warunaoshan@gmail.com
  */
 $args = '{aS:SD,a:1}';
-$shell_exec = shell_exec("java -jar '/home/trisquel/NetBeansProjects/online_print/dist/online_print.jar' " . $args);
+$shell_exec = shell_exec("java -jar '/var/www/JasperReports-PHP/dist/online_print.jar' " . $args);
 if ($shell_exec == 1) {
     $file = '/var/wwww/print.pdf';
-    header('X-Sendfile: ' . $file);
+    header('X-Sendfile: "' . $file . '"');
     header('Content-type: application/octet-stream');
     header('Content-Disposition: attachment; filename="' . basename($file) . '"');
 } else {
