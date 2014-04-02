@@ -5,8 +5,13 @@
  */
 package invoice;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,9 +25,52 @@ public class GetInvoice {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
+        nf.setRoundingMode(RoundingMode.HALF_UP);
+
         try {
             // TODO code application logic here
             JSONObject arg_json = new JSONObject(args[0]);
+
+            HashMap<String, Object> hm = new HashMap<>();
+            hm.put("duplicate", "");
+            hm.put("distributor", "//oshan" + "\n" + "//kapuhempala" + "\n\nArea: " + "//galle");
+            hm.put("customer", "//owner" + "\n" + "//Agro" + "\n" + "//Agro add" + "\n" + "//0771894851");
+            hm.put("invNo", "GSLTS" + String.format("%04d", Integer.parseInt("//100")));
+            hm.put("invDate", "2014-01-10");
+            hm.put("invCode", "300");
+
+            double invoiceTotal = 500000;
+            if (5 > 0) {//ShopDiscount
+                double discountprice = (invoiceTotal * 99) / 100;//getShopDiscount()
+                hm.put("invoiceDiscount", nf.format((invoiceTotal) * 99 / 100));//getRetail_discount()
+
+            } else {
+                hm.put("invoiceDiscount", "");
+            }
+            hm.put("gross_total", nf.format(invoiceTotal));
+            hm.put("invoiceTotal", nf.format(((invoiceTotal) * (100 - 99) / 100)));//getRetail_discount()
+            hm.put("salesPersonName", "rep");
+            hm.put("salesPersonContactNo", "0772189584");
+
+            JTable jTable1 = new JTable();
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "ITEMCODE", "DESCRIPTION", "QTY", "FREEQTY", "PRICE", "AMOUNT"
+                    }));
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm = (DefaultTableModel) jTable1.getModel();
+            JasperReport jr = JasperCompileManager.compileReport(reportSource);
+            jp = JasperFillManager.fillReport(jr, hm, new JRTableModelDataSource(dtm));
+
+            JasperPrintManager.printReport(jp, false);
+            String reportSource = "./ireports/invoice.jrxml";
             System.out.println("1");
         } catch (JSONException ex) {
             Logger.getLogger(GetInvoice.class.getName()).log(Level.SEVERE, null, ex);
