@@ -71,7 +71,6 @@ public class GetInvoice {
                 new String[]{
                     "ITEMCODE", "DESCRIPTION", "QTY", "FREEQTY", "PRICE", "AMOUNT"
                 }));
-
         String reportSource = "./ireports/invoice.jrxml";
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         try {
@@ -82,7 +81,5 @@ public class GetInvoice {
             Logger.getLogger(GetInvoice.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("1");
-
     }
-
 }
