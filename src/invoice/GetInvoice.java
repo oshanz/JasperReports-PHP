@@ -12,6 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +31,7 @@ public class GetInvoice {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws JSONException {
+    public static void main(String[] args) {
 
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
@@ -67,9 +74,13 @@ public class GetInvoice {
 
         String reportSource = "./ireports/invoice.jrxml";
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-        JasperReport jr = JasperCompileManager.compileReport(reportSource);
-        JasperPrint jp = JasperFillManager.fillReport(jr, hm, new JRTableModelDataSource(dtm));
-        JasperPrintManager.printReport(jp, false);
+        try {
+            JasperReport jr = JasperCompileManager.compileReport(reportSource);
+            JasperPrint jp = JasperFillManager.fillReport(jr, hm, new JRTableModelDataSource(dtm));
+            JasperPrintManager.printReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(GetInvoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("1");
 
     }
